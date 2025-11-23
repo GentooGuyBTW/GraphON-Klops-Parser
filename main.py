@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.1")
+print("GraphON-Klops-Parser v0.11")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -53,7 +53,7 @@ def convert_events_to_json(events, web_page):
     }
 
     def to_iso_z(s: str) -> str:
-        today = datetime(timezone.utc)
+        today = datetime.now(timezone.utc)
         s = s.strip().lower()
         if "-" in s and any(m in s for m in ru_months):
             dt = today.replace(hour=0, minute=0, second=0, microsecond=0)

@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.15")
+print("GraphON-Klops-Parser v0.16")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -6,7 +6,8 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import requests
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from dateutil.relativedelta import relativedelta
 import time
 
 print("Успешно!")

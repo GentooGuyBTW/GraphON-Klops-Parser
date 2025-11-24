@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.13")
+print("GraphON-Klops-Parser v0.14")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -106,9 +106,11 @@ def convert_events_to_json(events, web_page):
             .find("div", class_="detail-description detail-mb")
             .get_text(strip=True)
         )
-        event_dict["eventDate"] = to_iso_z(
-            event.find("div", class_="card-date").get_text(strip=True)
-        )
+        event_dict["eventDate"] = {
+            "$date": to_iso_z(
+                event.find("div", class_="card-date").get_text(strip=True)
+            )
+        }
         event_dict["isDateTbd"] = False
         event_dict["regedUsers"] = 0
         event_dict["imgPath"] = event.find("div", class_="card-preview").find("img")[

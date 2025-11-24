@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.14")
+print("GraphON-Klops-Parser v0.15")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -122,9 +122,21 @@ def convert_events_to_json(events, web_page):
     return event_list
 
 
+def get_dates():
+    now = datetime.now()
+    current_date = now.strftime("%d.%m.%Y")
+    new_date = now + timedelta(days=7)
+    if now.day > 30:
+        new_date += relativedelta(months=1)
+    elif now.month == 12 and now.day > 30:
+        new_date += relativedelta(years=1, months=-11)
+    future_date = new_date.strftime("%d.%m.%Y")
+    return f"{current_date}-{future_date}"
+
+
 print("Вызов Chrome и первичный парсинг...")
 driver = webdriver.Chrome()
-driver.get("https://klops.ru/afisha/search?period=today")
+driver.get(f"https://klops.ru/afisha/search?period={get_dates()}")
 while True:
     try:
         driver.find_element(By.CLASS_NAME, "btn-theme-next.js-loader").click()

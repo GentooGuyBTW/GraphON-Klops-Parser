@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.12")
+print("GraphON-Klops-Parser v0.13")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -117,7 +117,7 @@ def convert_events_to_json(events, web_page):
         event_dict["type"] = "city"
         event_list.append(event_dict)
 
-    return event_dict
+    return event_list
 
 
 print("Вызов Chrome и первичный парсинг...")

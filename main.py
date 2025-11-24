@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.11")
+print("GraphON-Klops-Parser v0.12")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -8,6 +8,7 @@ import requests
 import json
 from datetime import datetime, timezone
 import time
+
 print("Успешно!")
 
 
@@ -51,6 +52,7 @@ def convert_events_to_json(events, web_page):
         "ноября": 11,
         "декабря": 12,
     }
+    event_list = []
 
     def to_iso_z(s: str) -> str:
         today = datetime.now(timezone.utc)
@@ -113,8 +115,10 @@ def convert_events_to_json(events, web_page):
             "src"
         ]
         event_dict["type"] = "city"
+        event_list.append(event_dict)
 
-    return [event_dict]
+    return event_dict
+
 
 print("Вызов Chrome и первичный парсинг...")
 driver = webdriver.Chrome()

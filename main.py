@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.17")
+print("GraphON-Klops-Parser v0.18")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -102,7 +102,7 @@ def convert_events_to_json(events, web_page):
             event_dict["description"] = (
                 BeautifulSoup(
                     requests.get(
-                        f"https://klops.ru{web_page.find("a", class_="card-item")[event_count]["href"]}"
+                        f"https://klops.ru{web_page.find_all("a", class_="card-item")[event_count]["href"]}"
                     ).text,
                     features="html.parser",
                 )

@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.16")
+print("GraphON-Klops-Parser v0.17")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -54,6 +54,7 @@ def convert_events_to_json(events, web_page):
         "декабря": 12,
     }
     event_list = []
+    event_count = 0
 
     def to_iso_z(s: str) -> str:
         today = datetime.now(timezone.utc)
@@ -97,16 +98,19 @@ def convert_events_to_json(events, web_page):
         event_dict["place"] = event.find("div", class_="card-place").get_text(
             strip=True
         )
-        event_dict["description"] = (
-            BeautifulSoup(
-                requests.get(
-                    f"https://klops.ru{web_page.find("a", class_="card-item")["href"]}"
-                ).text,
-                features="html.parser",
+        try:
+            event_dict["description"] = (
+                BeautifulSoup(
+                    requests.get(
+                        f"https://klops.ru{web_page.find("a", class_="card-item")[event_count]["href"]}"
+                    ).text,
+                    features="html.parser",
+                )
+                .find("div", class_="detail-description detail-mb")
+                .get_text(strip=True)
             )
-            .find("div", class_="detail-description detail-mb")
-            .get_text(strip=True)
-        )
+        except AttributeError:
+            event_dict["description"] = "Описание мероприятия отсутствует."
         event_dict["eventDate"] = {
             "$date": to_iso_z(
                 event.find("div", class_="card-date").get_text(strip=True)
@@ -119,6 +123,7 @@ def convert_events_to_json(events, web_page):
         ]
         event_dict["type"] = "city"
         event_list.append(event_dict)
+        event_count += 1
 
     return event_list
 
@@ -154,8 +159,8 @@ print(f"Количество мероприятий: {len(events)}")
 
 with open("events.json", "w") as f:
     print("Начало создания json файла...")
-    a = convert_events_to_json(events, web_page)
-    json.dump(a, f, indent=4)
+    json_template = convert_events_to_json(events, web_page)
+    json.dump(json_template, f, indent=4)
     print("Успешно! Через 5 секунд программа завершится.")
     time.sleep(5)
 driver.quit()

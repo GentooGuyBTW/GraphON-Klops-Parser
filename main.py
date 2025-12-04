@@ -1,4 +1,4 @@
-print("GraphON-Klops-Parser v0.18")
+print("GraphON-Klops-Parser v0.19")
 print("Инициализация библиотек...")
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -24,6 +24,7 @@ def convert_events_to_json(events, web_page):
         "Вечеринки": "690ef48e4c94408de5d83d47",
         "Кино": "690ef4b14c94408de5d83d53",
         "Спорт": "690c0001f371d05b325be7c3",
+        "Фестивали, праздники": "69323fe72f768a11eae45388",
     }
     ru_months = {
         "янв": 1,
